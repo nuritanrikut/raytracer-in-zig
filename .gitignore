@@ -1,0 +1,11 @@
+/.vscode/
+
+/zig-cache/
+/zig-out/
+
+/*.ppm
+/*.png
+/*.txt
+/*.log
+
+!/sample.png
