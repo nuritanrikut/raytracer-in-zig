@@ -4,11 +4,11 @@ const Hitable = @import("./hitable.zig");
 const Ray = @import("./ray.zig");
 
 pub const HitableList = struct {
-    objects: std.ArrayList(Hitable.hitable_t),
+    objects: std.ArrayList(Hitable.Hitable),
 
     pub fn init(allocator: std.mem.Allocator) HitableList {
         return HitableList{
-            .objects = std.ArrayList(Hitable.hitable_t).init(allocator),
+            .objects = std.ArrayList(Hitable.Hitable).init(allocator),
         };
     }
 
@@ -16,14 +16,14 @@ pub const HitableList = struct {
         self.objects.deinit();
     }
 
-    pub fn add(self: *HitableList, obj: Hitable.hitable_t) !void {
+    pub fn add(self: *HitableList, obj: Hitable.Hitable) !void {
         try self.objects.append(obj);
     }
 
-    pub fn hit(self: HitableList, r: Ray.ray_t, t_min: f64, t_max: f64) !?HitRecord.hit_record_t {
+    pub fn hit(self: HitableList, r: Ray.Ray, t_min: f64, t_max: f64) !?HitRecord.HitRecord {
         var hit_anything = false;
         var closest_so_far = t_max;
-        var result: ?HitRecord.hit_record_t = null;
+        var result: ?HitRecord.HitRecord = null;
 
         // const stderr_file = std.io.getStdErr().writer();
         // var bwerr = std.io.bufferedWriter(stderr_file);

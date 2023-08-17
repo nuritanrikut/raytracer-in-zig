@@ -6,7 +6,7 @@ const Vec3 = @import("./vec3.zig");
 
 const Vector3D = @Vector(3, f64);
 
-pub const lambertian_t = struct {
+pub const Lambertian = struct {
     albedo: Vector3D,
 
     pub fn init(albedo: Vector3D) @This() {
@@ -22,10 +22,10 @@ pub const lambertian_t = struct {
 
     pub fn scatter(
         self: @This(),
-        r_in: Ray.ray_t,
-        rec: HitRecord.hit_record_t,
-        rng: *RNG.random_number_generator_t,
-    ) ?Material.scatter_result_t {
+        r_in: Ray.Ray,
+        rec: HitRecord.HitRecord,
+        rng: *RNG.Generator,
+    ) ?Material.ScatterResult {
         _ = r_in;
         var scatter_direction = Vec3.vec3_add(rec.normal, Vec3.random_unit_vector(rng));
 
@@ -33,9 +33,9 @@ pub const lambertian_t = struct {
         if (Vec3.near_zero(scatter_direction))
             scatter_direction = rec.normal;
 
-        const result = Material.scatter_result_t{
+        const result = Material.ScatterResult{
             .attenuation = self.albedo,
-            .scattered_ray = Ray.ray_t{ .origin = rec.p, .direction = scatter_direction },
+            .scattered_ray = Ray.Ray{ .origin = rec.p, .direction = scatter_direction },
         };
         return result;
     }

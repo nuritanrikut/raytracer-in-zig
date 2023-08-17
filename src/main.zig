@@ -18,36 +18,36 @@ fn simple_scene(allocator: std.mem.Allocator) !HitableList.HitableList {
     var world = HitableList.HitableList.init(allocator);
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 0.0, -1000.0, 0.0 },
                 1000,
-                Material.material_t{
-                    .lambertian = Lambertian.lambertian_t.init(Vector3D{ 0.5, 0.5, 0.5 }),
+                Material.Material{
+                    .lambertian = Lambertian.Lambertian.init(Vector3D{ 0.5, 0.5, 0.5 }),
                 },
             ),
         },
     );
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 0, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .dielectric = Dielectric.dielectric_t.init(1.5),
+                Material.Material{
+                    .dielectric = Dielectric.Dielectric.init(1.5),
                 },
             ),
         },
     );
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ -4, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .lambertian = Lambertian.lambertian_t.init(
+                Material.Material{
+                    .lambertian = Lambertian.Lambertian.init(
                         Vector3D{ 0.4, 0.2, 0.1 },
                     ),
                 },
@@ -56,12 +56,12 @@ fn simple_scene(allocator: std.mem.Allocator) !HitableList.HitableList {
     );
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 4, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .metal = Metal.metal_t.init(Vector3D{ 0.7, 0.6, 0.5 }, 0.0),
+                Material.Material{
+                    .metal = Metal.Metal.init(Vector3D{ 0.7, 0.6, 0.5 }, 0.0),
                 },
             ),
         },
@@ -70,16 +70,16 @@ fn simple_scene(allocator: std.mem.Allocator) !HitableList.HitableList {
     return world;
 }
 
-fn random_scene(allocator: std.mem.Allocator, rng: *RNG.random_number_generator_t) !HitableList.HitableList {
+fn random_scene(allocator: std.mem.Allocator, rng: *RNG.Generator) !HitableList.HitableList {
     var world = HitableList.HitableList.init(allocator);
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 0.0, -1000.0, 0.0 },
                 1000,
-                Material.material_t{
-                    .lambertian = Lambertian.lambertian_t.init(Vector3D{ 0.5, 0.5, 0.5 }),
+                Material.Material{
+                    .lambertian = Lambertian.Lambertian.init(Vector3D{ 0.5, 0.5, 0.5 }),
                 },
             ),
         },
@@ -100,23 +100,23 @@ fn random_scene(allocator: std.mem.Allocator, rng: *RNG.random_number_generator_
             };
             if (Vec3.length(Vec3.vec3_sub(sphere_center, world_center)) > 0.9) {
                 const choose_mat = rng.random_f64();
-                const material = if (choose_mat < 0.8) Material.material_t{
-                    .lambertian = Lambertian.lambertian_t{
+                const material = if (choose_mat < 0.8) Material.Material{
+                    .lambertian = Lambertian.Lambertian{
                         .albedo = Vec3.random_vec3(rng),
                     },
-                } else if (choose_mat < 0.95) Material.material_t{
-                    .metal = Metal.metal_t{
+                } else if (choose_mat < 0.95) Material.Material{
+                    .metal = Metal.Metal{
                         .albedo = Vec3.random_vec3(rng),
                         .fuzz = rng.random_range(0, 0.5),
                     },
-                } else Material.material_t{
-                    .dielectric = Dielectric.dielectric_t{
+                } else Material.Material{
+                    .dielectric = Dielectric.Dielectric{
                         .ir = 1.5,
                     },
                 };
 
-                const sp = Hitable.hitable_t{
-                    .sphere = try Sphere.sphere_t.init(
+                const sp = Hitable.Hitable{
+                    .sphere = try Sphere.Sphere.init(
                         Vector3D{ 0.0, -1000.0, 0.0 },
                         1000,
                         material,
@@ -128,24 +128,24 @@ fn random_scene(allocator: std.mem.Allocator, rng: *RNG.random_number_generator_
     }
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 0, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .dielectric = Dielectric.dielectric_t.init(1.5),
+                Material.Material{
+                    .dielectric = Dielectric.Dielectric.init(1.5),
                 },
             ),
         },
     );
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ -4, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .lambertian = Lambertian.lambertian_t.init(
+                Material.Material{
+                    .lambertian = Lambertian.Lambertian.init(
                         Vector3D{ 0.4, 0.2, 0.1 },
                     ),
                 },
@@ -154,12 +154,12 @@ fn random_scene(allocator: std.mem.Allocator, rng: *RNG.random_number_generator_
     );
 
     try world.add(
-        Hitable.hitable_t{
-            .sphere = try Sphere.sphere_t.init(
+        Hitable.Hitable{
+            .sphere = try Sphere.Sphere.init(
                 Vector3D{ 4, 1, 0 },
                 1.0,
-                Material.material_t{
-                    .metal = Metal.metal_t.init(Vector3D{ 0.7, 0.6, 0.5 }, 0.0),
+                Material.Material{
+                    .metal = Metal.Metal.init(Vector3D{ 0.7, 0.6, 0.5 }, 0.0),
                 },
             ),
         },
@@ -170,11 +170,11 @@ fn random_scene(allocator: std.mem.Allocator, rng: *RNG.random_number_generator_
 
 const Job = struct {
     color: Vector3D,
-    rng: RNG.random_number_generator_t,
+    rng: RNG.Generator,
     row: i32,
     col: i32,
     world: HitableList.HitableList,
-    cam: Camera.camera_t,
+    cam: Camera.Camera,
     image_width: i32,
     image_height: i32,
     samples_per_pixel_x: i32,
@@ -182,7 +182,7 @@ const Job = struct {
     max_depth: i32,
 };
 
-fn ray_color(col: i32, row: i32, r: Ray.ray_t, world: HitableList.HitableList, depth: i32, rng: *RNG.random_number_generator_t) !Vector3D {
+fn ray_color(col: i32, row: i32, r: Ray.Ray, world: HitableList.HitableList, depth: i32, rng: *RNG.Generator) !Vector3D {
     if (depth <= 0)
         return Vector3D{ 1.0, 1.0, 1.0 };
 
@@ -192,7 +192,7 @@ fn ray_color(col: i32, row: i32, r: Ray.ray_t, world: HitableList.HitableList, d
 
     const infinity = std.math.inf(f64);
 
-    var rec_opt: ?HitRecord.hit_record_t = try world.hit(r, 0.001, infinity);
+    var rec_opt: ?HitRecord.HitRecord = try world.hit(r, 0.001, infinity);
     if (rec_opt) |rec| {
         const did_scatter = rec.material.scatter(r, rec, rng);
         if (did_scatter) |scatter_result| {
@@ -255,7 +255,7 @@ fn render_job(job: *Job) !Vector3D {
             const x: f64 = fsx / fsppx - 0.5;
             const u: f64 = (@as(f64, @floatFromInt(job.col)) + x) / fw;
 
-            var r: Ray.ray_t = job.cam.get_ray(&job.rng, u, v);
+            var r: Ray.Ray = job.cam.get_ray(&job.rng, u, v);
             const rc = try ray_color(job.col, job.row, r, job.world, job.max_depth, &job.rng);
             color = Vec3.vec3_add(color, rc);
 
@@ -330,7 +330,7 @@ pub fn main() !void {
     // try bwerr.flush();
 
     // RNG
-    var rng = RNG.random_number_generator_t.init();
+    var rng = RNG.Generator.init();
     _ = rng.random_f64();
 
     // World
@@ -353,7 +353,7 @@ pub fn main() !void {
     var vfov: f64 = 20.0; // vertical field-of-view in degrees
     var dist_to_focus: f64 = 10.0;
     var aperture: f64 = 0.1;
-    var cam = Camera.camera_t.init(
+    var cam = Camera.Camera.init(
         lookfrom,
         lookat,
         vup,

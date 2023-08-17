@@ -86,7 +86,7 @@ pub fn vec3_neg(a: Vector3D) Vector3D {
     };
 }
 
-pub fn random_vec3(rng: *RNG.random_number_generator_t) Vector3D {
+pub fn random_vec3(rng: *RNG.Generator) Vector3D {
     return Vector3D{
         rng.random_f64(),
         rng.random_f64(),
@@ -94,7 +94,7 @@ pub fn random_vec3(rng: *RNG.random_number_generator_t) Vector3D {
     };
 }
 
-pub fn random_vec3_range(rng: *RNG.random_number_generator_t, min: f64, max: f64) Vector3D {
+pub fn random_vec3_range(rng: *RNG.Generator, min: f64, max: f64) Vector3D {
     return Vector3D{
         rng.random_range(min, max),
         rng.random_range(min, max),
@@ -102,7 +102,7 @@ pub fn random_vec3_range(rng: *RNG.random_number_generator_t, min: f64, max: f64
     };
 }
 
-pub fn random_in_unit_disk(rng: *RNG.random_number_generator_t) Vector3D {
+pub fn random_in_unit_disk(rng: *RNG.Generator) Vector3D {
     var v = Vector3D{ 0, 0, 0 };
     while (true) {
         v = Vector3D{
@@ -116,7 +116,7 @@ pub fn random_in_unit_disk(rng: *RNG.random_number_generator_t) Vector3D {
     }
 }
 
-pub fn random_in_unit_sphere(rng: *RNG.random_number_generator_t) Vector3D {
+pub fn random_in_unit_sphere(rng: *RNG.Generator) Vector3D {
     var v = Vector3D{ 0, 0, 0 };
     while (true) {
         v = random_vec3_range(rng, -1.0, 1.0);
@@ -126,7 +126,7 @@ pub fn random_in_unit_sphere(rng: *RNG.random_number_generator_t) Vector3D {
     }
 }
 
-pub fn random_unit_vector(rng: *RNG.random_number_generator_t) Vector3D {
+pub fn random_unit_vector(rng: *RNG.Generator) Vector3D {
     return unit_vector(random_in_unit_sphere(rng));
 }
 

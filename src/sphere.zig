@@ -7,12 +7,12 @@ const Vec3 = @import("./vec3.zig");
 
 const Vector3D = @Vector(3, f64);
 
-pub const sphere_t = struct {
+pub const Sphere = struct {
     center: Vector3D,
     radius: f64,
-    material: Material.material_t,
+    material: Material.Material,
 
-    pub fn init(center: Vector3D, radius: f64, material: Material.material_t) !@This() {
+    pub fn init(center: Vector3D, radius: f64, material: Material.Material) !@This() {
         // const stderr_file = std.io.getStdErr().writer();
         // var bwerr = std.io.bufferedWriter(stderr_file);
         // const stderr = bwerr.writer();
@@ -36,10 +36,10 @@ pub const sphere_t = struct {
 
     pub fn hit(
         self: @This(),
-        r: Ray.ray_t,
+        r: Ray.Ray,
         t_min: f64,
         t_max: f64,
-    ) std.os.WriteError!?HitRecord.hit_record_t {
+    ) std.os.WriteError!?HitRecord.HitRecord {
         // const stderr_file = std.io.getStdErr().writer();
         // var bwerr = std.io.bufferedWriter(stderr_file);
         // const stderr = bwerr.writer();
@@ -95,7 +95,7 @@ pub const sphere_t = struct {
         // );
         // try bwerr.flush();
 
-        var result = HitRecord.hit_record_t.init();
+        var result = HitRecord.HitRecord.init();
         result.t = t;
         result.p = r.at(t);
         result.material = self.material;

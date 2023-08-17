@@ -13,10 +13,7 @@ pub fn build(b: *std.Build) void {
     // Standard optimization options allow the person running `zig build` to select
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
     // set a preferred release mode, allowing the user to decide how to optimize.
-    const opt = std.Build.StandardOptimizeOptionOptions{
-        .preferred_optimize_mode = std.builtin.Mode.ReleaseFast,
-    };
-    const optimize = b.standardOptimizeOption(opt);
+    const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
         .name = "raytracer-in-zig",

@@ -9,7 +9,7 @@ fn degrees_to_radians(degrees: f64) f64 {
     return degrees * std.math.pi / 180.0;
 }
 
-pub const camera_t = struct {
+pub const Camera = struct {
     origin: Vector3D,
     lower_left_corner: Vector3D,
     horizontal: Vector3D,
@@ -27,7 +27,7 @@ pub const camera_t = struct {
         aspect_ratio: f64,
         aperture: f64,
         focus_dist: f64,
-    ) camera_t {
+    ) Camera {
         const theta = degrees_to_radians(vfov);
         const h = std.math.tan(theta / 2.0);
         const viewport_height = 2.0 * h;
@@ -51,7 +51,7 @@ pub const camera_t = struct {
         const lower_left_corner = vec3.vec3_sub(origin, vec3.vec3_add(vec3.vec3_add(horizontal_half, vertical_half), focus_half));
         const lens_radius = aperture / 2;
 
-        return camera_t{
+        return Camera{
             .w = w,
             .u = u,
             .v = v,
@@ -63,7 +63,7 @@ pub const camera_t = struct {
         };
     }
 
-    pub fn get_ray(self: *camera_t, rng: *RNG.random_number_generator_t, s: f64, t: f64) Ray.ray_t {
+    pub fn get_ray(self: *Camera, rng: *RNG.Generator, s: f64, t: f64) Ray.Ray {
         const rd: Vector3D = vec3.vec3_scale(vec3.random_in_unit_disk(rng), self.lens_radius);
         const horizontal = vec3.vec3_scale(self.u, rd[0]);
         const vertical = vec3.vec3_scale(self.v, rd[1]);
@@ -74,7 +74,7 @@ pub const camera_t = struct {
         const vertical_t = vec3.vec3_scale(self.vertical, t);
         const ray_end = vec3.vec3_add(self.lower_left_corner, vec3.vec3_add(horizontal_s, vertical_t));
         const ray_direction = vec3.vec3_sub(ray_end, ray_origin);
-        return Ray.ray_t{
+        return Ray.Ray{
             .origin = ray_origin,
             .direction = ray_direction,
         };
