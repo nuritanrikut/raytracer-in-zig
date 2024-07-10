@@ -11,7 +11,7 @@ pub const Metal = struct {
     fuzz: f64,
 
     pub fn init(albedo: Vector3D, fuzz: f64) @This() {
-        var result = .{
+        const result = .{
             .albedo = albedo,
             .fuzz = if (fuzz < 1.0) fuzz else 1.0,
         };
@@ -24,8 +24,8 @@ pub const Metal = struct {
 
     pub fn scatter(
         self: @This(),
-        r_in: Ray.Ray,
-        rec: HitRecord.HitRecord,
+        r_in: *const Ray.Ray,
+        rec: *const HitRecord.HitRecord,
         rng: *RNG.Generator,
     ) ?Material.ScatterResult {
         const reflected = Vec3.reflect(Vec3.unit_vector(r_in.direction), rec.normal);

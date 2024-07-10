@@ -10,7 +10,7 @@ pub const Lambertian = struct {
     albedo: Vector3D,
 
     pub fn init(albedo: Vector3D) @This() {
-        var result = .{
+        const result = .{
             .albedo = albedo,
         };
         return result;
@@ -22,8 +22,8 @@ pub const Lambertian = struct {
 
     pub fn scatter(
         self: @This(),
-        r_in: Ray.Ray,
-        rec: HitRecord.HitRecord,
+        r_in: *const Ray.Ray,
+        rec: *const HitRecord.HitRecord,
         rng: *RNG.Generator,
     ) ?Material.ScatterResult {
         _ = r_in;

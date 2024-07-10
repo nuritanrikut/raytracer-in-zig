@@ -23,7 +23,7 @@ pub const HitRecord = struct {
         };
     }
 
-    pub fn set_face_normal(self: *HitRecord, r: Ray.Ray, outward_normal: Vector3D) void {
+    pub fn set_face_normal(self: *HitRecord, r: *const Ray.Ray, outward_normal: Vector3D) void {
         self.front_face = Vec3.vec3_dot(r.direction, outward_normal) < 0.0;
         if (self.front_face) {
             self.normal = outward_normal;

@@ -12,7 +12,7 @@ pub const Dielectric = struct {
     ir: f64, // Index of Refraction
 
     pub fn init(ir: f64) @This() {
-        var result = .{
+        const result = .{
             .ir = ir,
         };
         return result;
@@ -25,8 +25,8 @@ pub const Dielectric = struct {
 
     pub fn scatter(
         self: @This(),
-        r_in: Ray.Ray,
-        rec: HitRecord.HitRecord,
+        r_in: *const Ray.Ray,
+        rec: *const HitRecord.HitRecord,
         rng: *RNG.Generator,
     ) ?Material.ScatterResult {
         const refraction_ratio = if (rec.front_face) 1.0 / self.ir else self.ir;

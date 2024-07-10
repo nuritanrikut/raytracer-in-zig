@@ -27,8 +27,8 @@ pub const Material = union(enum) {
 
         fn scatter(
             self: *const @This(),
-            r_in: Ray.Ray,
-            rec: HitRecord.HitRecord,
+            r_in: *const Ray.Ray,
+            rec: *const HitRecord.HitRecord,
             rng: *RNG.Generator,
         ) ?ScatterResult {
             _ = rng;
@@ -57,8 +57,8 @@ pub const Material = union(enum) {
 
     pub fn scatter(
         self: @This(),
-        r_in: Ray.Ray,
-        rec: HitRecord.HitRecord,
+        r_in: *const Ray.Ray,
+        rec: *const HitRecord.HitRecord,
         rng: *RNG.Generator,
     ) ?ScatterResult {
         return switch (self) {

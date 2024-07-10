@@ -17,7 +17,7 @@ pub fn unit_vector(v: Vector3D) Vector3D {
 
 pub fn near_zero(v: Vector3D) bool {
     const s = 1e-8;
-    return (std.math.fabs(v[0]) < s) and (std.math.fabs(v[1]) < s) and (std.math.fabs(v[2]) < s);
+    return (@abs(v[0]) < s) and (@abs(v[1]) < s) and (@abs(v[2]) < s);
 }
 
 pub fn vec3_write_color(stdout: anytype, color: Vector3D, samples_per_pixel: i32) !void {
@@ -137,6 +137,6 @@ pub fn reflect(v: Vector3D, n: Vector3D) Vector3D {
 pub fn refract(uv: Vector3D, n: Vector3D, etai_over_etat: f64) Vector3D {
     const cos_theta = @min(vec3_dot(vec3_neg(uv), n), 1.0);
     const r_out_perp = vec3_scale(vec3_add(uv, vec3_scale(n, cos_theta)), etai_over_etat);
-    const r_out_parallel = vec3_scale(n, -@sqrt(std.math.fabs(1.0 - length_squared(r_out_perp))));
+    const r_out_parallel = vec3_scale(n, -@sqrt(@abs(1.0 - length_squared(r_out_perp))));
     return vec3_add(r_out_perp, r_out_parallel);
 }
